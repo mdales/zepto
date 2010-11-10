@@ -20,8 +20,16 @@
         $(touch.target).trigger('doubleTap');
         touch = {};
       } else if (touch.x2 > 0) {
-        Math.abs(touch.x1-touch.x2)>30 && $(touch.target).trigger('swipe');
-        touch.x1 = touch.x2 = touch.last = 0;
+          if (touch.x2 < touch.x1)
+          {
+              (touch.x1-touch.x2)>30 && $(touch.target).trigger('swipeLeft');
+              touch.x1 = touch.x2 = touch.last = 0;
+          } 
+          else 
+          {
+              (touch.x2-touch.x1)>30 && $(touch.target).trigger('swipeRight');
+              touch.x1 = touch.x2 = touch.last = 0;
+          }
       } else if ('last' in touch) {
         touchTimeout = setTimeout(function(){
           touchTimeout = null;
@@ -32,7 +40,7 @@
     }).bind('touchcancel', function(){ touch={} });
   });
   
-  ['swipe', 'doubleTap', 'tap'].forEach(function(m){
+  ['swipeLeft', 'swipeRight', 'doubleTap', 'tap'].forEach(function(m){
     $.fn[m] = function(callback){ return this.bind(m, callback) }
   });
 })(Zepto);

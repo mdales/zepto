@@ -15,15 +15,18 @@
   </div>
   
   <script>
-    $('#touch_test')
+    $('body')
       .tap(function(){
         $(this).append(' | tap!');
       })
       .doubleTap(function(){
         $(this).append(' | double tap!');
       })
-      .swipe(function(){
-        $(this).append(' | swipe!');
+      .swipeLeft(function(){
+        $(this).append(' | left swipe!');
+      })
+      .swipeRight(function(){
+        $(this).append(' | right swipe!');
       });
   </script>
 </body>

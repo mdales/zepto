@@ -11,25 +11,30 @@
       touch.target = parentIfText(e.touches[0].target);
       touchTimeout && clearTimeout(touchTimeout);
       touch.x1 = e.touches[0].pageX;
+      touch.y1 = e.touches[0].pageY;
       if (delta > 0 && delta <= 250) touch.isDoubleTap = true;
       touch.last = now;
     }).bind('touchmove', function(e){ 
-      touch.x2 = e.touches[0].pageX 
+      touch.x2 = e.touches[0].pageX;
+      touch.y2 = e.touches[0].pageY; 
     }).bind('touchend', function(e){
       if (touch.isDoubleTap) {
         $(touch.target).trigger('doubleTap');
         touch = {};
       } else if (touch.x2 > 0) {
-          if (touch.x2 < touch.x1)
-          {
-              (touch.x1-touch.x2)>30 && $(touch.target).trigger('swipeLeft');
-              touch.x1 = touch.x2 = touch.last = 0;
-          } 
-          else 
-          {
-              (touch.x2-touch.x1)>30 && $(touch.target).trigger('swipeRight');
-              touch.x1 = touch.x2 = touch.last = 0;
-          }
+          if ( Math.abs(touch.y2 - touch.y1) <= 50)
+         {
+                  if (touch.x2 < touch.x1)
+                  {
+                      (touch.x1-touch.x2)>30 && $(touch.target).trigger('swipeLeft');
+                      touch.x1 = touch.x2 = touch.last = 0;
+                  } 
+                  else 
+                  {
+                      (touch.x2-touch.x1)>30 && $(touch.target).trigger('swipeRight');
+                      touch.x1 = touch.x2 = touch.last = 0;
+                  }
+              }
       } else if ('last' in touch) {
         touchTimeout = setTimeout(function(){
           touchTimeout = null;
